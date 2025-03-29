@@ -12,55 +12,113 @@ import java.util.function.*;
 public class StreamExceptionUtils {
 
     /**
-     * Functional interface like Function<T, R> but allows checked exception
+     * Like {@code Function<T, R>} but allows checked exceptions.
+     *
+     * @param <T> input type
+     * @param <R> result type
      */
     @FunctionalInterface
     public interface ThrowingFunction<T, R> {
+        /**
+         * Applies the function.
+         *
+         * @param t input value
+         * @return result
+         * @throws Exception if any error occurs
+         */
         R apply(T t) throws Exception;
     }
 
     /**
-     * BiFunction version with checked exception
+     * Like {@code BiFunction<T, U, R>} but allows checked exceptions.
+     *
+     * @param <T> first input
+     * @param <U> second input
+     * @param <R> result
      */
     @FunctionalInterface
     public interface ThrowingBiFunction<T, U, R> {
+        /**
+         * Applies the function.
+         *
+         * @param t first value
+         * @param u second value
+         * @return result
+         * @throws Exception if any error occurs
+         */
         R apply(T t, U u) throws Exception;
     }
 
     /**
-     * Consumer with checked exception
+     * Like {@code Consumer<T>} but allows checked exceptions.
+     *
+     * @param <T> consumed type
      */
     @FunctionalInterface
     public interface ThrowingConsumer<T> {
+        /**
+         * Performs the action.
+         *
+         * @param t value
+         * @throws Exception if any error occurs
+         */
         void accept(T t) throws Exception;
     }
 
     /**
-     * BiConsumer with checked exception
+     * Like {@code BiConsumer<T, U>} but allows checked exceptions.
+     *
+     * @param <T> first input
+     * @param <U> second input
      */
     @FunctionalInterface
     public interface ThrowingBiConsumer<T, U> {
+        /**
+         * Performs the action.
+         *
+         * @param t first value
+         * @param u second value
+         * @throws Exception if any error occurs
+         */
         void accept(T t, U u) throws Exception;
     }
 
     /**
-     * Supplier with checked exception
+     * Like {@code Supplier<T>} but allows checked exceptions.
+     *
+     * @param <T> result type
      */
     @FunctionalInterface
     public interface ThrowingSupplier<T> {
+        /**
+         * Supplies a value.
+         *
+         * @return result
+         * @throws Exception if any error occurs
+         */
         T get() throws Exception;
     }
 
     /**
-     * Runnable with checked exception
+     * Like {@code Runnable} but allows checked exceptions.
      */
     @FunctionalInterface
     public interface ThrowingRunnable {
+        /**
+         * Executes the runnable.
+         *
+         * @throws Exception if any error occurs
+         */
         void run() throws Exception;
     }
 
     /**
-     * Wraps a ThrowingFunction and rethrows as unchecked RuntimeException
+     * Wraps a ThrowingFunction and rethrows as unchecked RuntimeException.
+     *
+     * @param function lambda with checked exception
+     * @param <T> input type
+     * @param <R> result type
+     * @return safe Function
      */
     public static <T, R> Function<T, R> wrapFunction(ThrowingFunction<T, R> function) {
         return t -> {
@@ -73,7 +131,13 @@ public class StreamExceptionUtils {
     }
 
     /**
-     * Wraps a ThrowingBiFunction and rethrows as unchecked
+     * Wraps a ThrowingBiFunction and rethrows as unchecked RuntimeException.
+     *
+     * @param function lambda with checked exception
+     * @param <T> first input
+     * @param <U> second input
+     * @param <R> result type
+     * @return safe BiFunction
      */
     public static <T, U, R> BiFunction<T, U, R> wrapBiFunction(ThrowingBiFunction<T, U, R> function) {
         return (t, u) -> {
@@ -86,7 +150,11 @@ public class StreamExceptionUtils {
     }
 
     /**
-     * Wraps a ThrowingConsumer into a regular Consumer
+     * Wraps a ThrowingConsumer into a regular Consumer.
+     *
+     * @param consumer lambda with checked exception
+     * @param <T> consumed type
+     * @return safe Consumer
      */
     public static <T> Consumer<T> wrapConsumer(ThrowingConsumer<T> consumer) {
         return t -> {
@@ -99,7 +167,12 @@ public class StreamExceptionUtils {
     }
 
     /**
-     * Wraps a ThrowingBiConsumer into a regular BiConsumer
+     * Wraps a ThrowingBiConsumer into a regular BiConsumer.
+     *
+     * @param consumer lambda with checked exception
+     * @param <T> first input
+     * @param <U> second input
+     * @return safe BiConsumer
      */
     public static <T, U> BiConsumer<T, U> wrapBiConsumer(ThrowingBiConsumer<T, U> consumer) {
         return (t, u) -> {
@@ -112,7 +185,11 @@ public class StreamExceptionUtils {
     }
 
     /**
-     * Wraps a ThrowingSupplier into a regular Supplier
+     * Wraps a ThrowingSupplier into a regular Supplier.
+     *
+     * @param supplier lambda with checked exception
+     * @param <T> result type
+     * @return safe Supplier
      */
     public static <T> Supplier<T> wrapSupplier(ThrowingSupplier<T> supplier) {
         return () -> {
@@ -125,7 +202,10 @@ public class StreamExceptionUtils {
     }
 
     /**
-     * Wraps a ThrowingRunnable into a regular Runnable
+     * Wraps a ThrowingRunnable into a regular Runnable.
+     *
+     * @param runnable lambda with checked exception
+     * @return safe Runnable
      */
     public static Runnable wrapRunnable(ThrowingRunnable runnable) {
         return () -> {
@@ -140,6 +220,11 @@ public class StreamExceptionUtils {
     /**
      * Converts a ThrowingFunction into one that returns Optional.
      * Returns Optional.empty() in case of exception.
+     *
+     * @param function function that may throw
+     * @param <T> input type
+     * @param <R> result type
+     * @return Optional-producing safe function
      */
     public static <T, R> Function<T, Optional<R>> safeFunctionOptional(ThrowingFunction<T, R> function) {
         return t -> {
@@ -152,7 +237,12 @@ public class StreamExceptionUtils {
     }
 
     /**
-     * Converts a ThrowingFunction into one that returns Either<Exception, R>.
+     * Converts a ThrowingFunction into one that returns {@code Either<Exception, R>}.
+     *
+     * @param function function that may throw
+     * @param <T> input type
+     * @param <R> result type
+     * @return Either-producing function
      */
     public static <T, R> Function<T, Either<Exception, R>> safeFunctionEither(ThrowingFunction<T, R> function) {
         return t -> {
@@ -165,11 +255,12 @@ public class StreamExceptionUtils {
     }
 
     /**
-     * Propagates a checked exception as unchecked RuntimeException
+     * Propagates a checked exception as unchecked RuntimeException.
+     *
+     * @param e exception to propagate
+     * @return RuntimeException
      */
     private static RuntimeException propagate(Exception e) {
         return (e instanceof RuntimeException) ? (RuntimeException) e : new RuntimeException(e);
     }
-
 }
-
