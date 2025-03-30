@@ -122,6 +122,25 @@ public abstract class Either<L, R> {
      */
     public abstract Optional<R> toOptional();
 
+
+    /**
+     * Converts this Either to a Stream.
+     *
+     * @return Stream with this Either
+     */
+    public R getOrElse(R defaultValue) {
+        return toOptional().orElse(defaultValue);
+    }
+
+    /**
+     * Converts this Either to a Stream.
+     *
+     * @return Stream with this Either
+     */
+    public R getOrElseGet(Function<? super L, ? extends R> mapper) {
+        return fold(mapper, Function.identity());
+    }
+
     /**
      * Creates a Right instance.
      *
