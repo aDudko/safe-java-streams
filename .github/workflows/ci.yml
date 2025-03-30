@@ -43,6 +43,9 @@ jobs:
             </body>
           </html>' > temp-docs/index.html
 
+      - name: List contents of temp-docs
+        run: ls -R temp-docs
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:

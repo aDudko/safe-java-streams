@@ -72,13 +72,20 @@
                 <version>3.6.3</version>
                 <executions>
                     <execution>
-                        <id>attach-javadocs</id>
-                        <phase>package</phase>
+                        <id>generate-docs</id>
+                        <phase>verify</phase>
                         <goals>
-                            <goal>jar</goal>
+                            <goal>javadoc</goal>
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <failOnError>false</failOnError>
+                    <show>private</show>
+                    <additionalJOptions>
+                        <additionalJOption>-Xdoclint:none</additionalJOption>
+                    </additionalJOptions>
+                </configuration>
             </plugin>
         </plugins>
     </build>
