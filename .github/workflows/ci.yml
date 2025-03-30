@@ -29,19 +29,6 @@ jobs:
         run: |
           mkdir -p temp-docs
           cp -R target/site/apidocs/* temp-docs/
-
-      - name: Create redirect index.html
-        run: |
-          echo '<!DOCTYPE html>
-          <html lang="en">
-            <head>
-              <meta http-equiv="refresh" content="0; url=overview-summary.html">
-              <title>Redirecting…</title>
-            </head>
-            <body>
-              <p>If you are not redirected automatically, follow this <a href="overview-summary.html">link</a>.</p>
-            </body>
-          </html>' > temp-docs/index.html
           touch temp-docs/.nojekyll
 
       - name: Deploy to GitHub Pages
