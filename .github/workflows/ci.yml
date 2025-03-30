@@ -1,13 +1,10 @@
-name: CI
+name: Java CI with Maven
 
 on:
   push:
-    branches: [ master ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ master ]
-
-permissions:
-  contents: read
+    branches: [ "master" ]
 
 jobs:
   build:
@@ -17,22 +14,31 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
           java-version: '17'
+          distribution: 'temurin'
 
-      - name: Build with Maven
-        run: mvn -B clean verify
+      - name: Build and generate Javadoc
+        run: mvn -B verify
 
-      - name: Generate Javadoc
-        run: mvn javadoc:javadoc
-
-      - name: Upload Javadoc to GitHub Pages
-        if: github.ref == 'refs/heads/master'
+      - name: Copy Javadoc to temp folder
         run: |
           mkdir -p temp-docs
           cp -R target/site/apidocs/* temp-docs/
+
+      - name: Create redirect index.html
+        run: |
+          echo '<!DOCTYPE html>
+          <html lang="en">
+            <head>
+              <meta http-equiv="refresh" content="0; url=overview-summary.html">
+              <title>Redirecting…</title>
+            </head>
+            <body>
+              <p>If you are not redirected automatically, follow this <a href="overview-summary.html">link</a>.</p>
+            </body>
+          </html>' > temp-docs/index.html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
