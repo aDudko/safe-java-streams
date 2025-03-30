@@ -25,6 +25,12 @@ jobs:
       - name: Generate Javadoc
         run: mvn javadoc:javadoc
 
+      - name: Debug generated javadoc
+        run: |
+          echo "::group::Listing apidocs"
+          ls -la target/site/apidocs || echo 'No apidocs found'
+          echo "::endgroup::"
+
       - name: Copy Javadoc to temp folder
         run: |
           mkdir -p temp-docs
@@ -42,9 +48,6 @@ jobs:
               <p>If you are not redirected automatically, follow this <a href="overview-summary.html">link</a>.</p>
             </body>
           </html>' > temp-docs/index.html
-
-      - name: List contents of temp-docs
-        run: ls -R temp-docs
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
