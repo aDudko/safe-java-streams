@@ -1,4 +1,6 @@
-import com.dudko.tools.safejavastreams.Either;
+package adapter;
+
+import com.dudko.tools.safejavastreams.core.Either;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -9,10 +11,10 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.dudko.tools.safejavastreams.StreamExceptionUtils.*;
+import static com.dudko.tools.safejavastreams.adapter.CheckedAdapters.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-class StreamExceptionUtilsTest {
+class CheckedAdaptersTest {
 
     @Test
     void wrapFunctionShouldPropagateException() {

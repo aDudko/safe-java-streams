@@ -1,6 +1,6 @@
-package com.dudko.tools.safejavastreams.demo;
+package com.dudko.tools.safejavastreams.demo.core;
 
-import com.dudko.tools.safejavastreams.Either;
+import com.dudko.tools.safejavastreams.core.Either;
 
 import java.util.List;
 import java.util.stream.Stream;

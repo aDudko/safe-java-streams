@@ -1,4 +1,6 @@
-import com.dudko.tools.safejavastreams.Either;
+package core;
+
+import com.dudko.tools.safejavastreams.core.Either;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;

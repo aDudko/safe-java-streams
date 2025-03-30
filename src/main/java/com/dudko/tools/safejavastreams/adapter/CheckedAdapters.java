@@ -1,4 +1,7 @@
-package com.dudko.tools.safejavastreams;
+package com.dudko.tools.safejavastreams.adapter;
+
+import com.dudko.tools.safejavastreams.core.Either;
+import com.dudko.tools.safejavastreams.function.*;
 
 import java.util.Optional;
 import java.util.function.*;
@@ -9,108 +12,7 @@ import java.util.function.*;
  * This enables using Stream API and functional interfaces in a safer and cleaner way
  * without wrapping try/catch manually in every lambda.
  */
-public class StreamExceptionUtils {
-
-    /**
-     * Like {@code Function<T, R>} but allows checked exceptions.
-     *
-     * @param <T> input type
-     * @param <R> result type
-     */
-    @FunctionalInterface
-    public interface ThrowingFunction<T, R> {
-        /**
-         * Applies the function.
-         *
-         * @param t input value
-         * @return result
-         * @throws Exception if any error occurs
-         */
-        R apply(T t) throws Exception;
-    }
-
-    /**
-     * Like {@code BiFunction<T, U, R>} but allows checked exceptions.
-     *
-     * @param <T> first input
-     * @param <U> second input
-     * @param <R> result
-     */
-    @FunctionalInterface
-    public interface ThrowingBiFunction<T, U, R> {
-        /**
-         * Applies the function.
-         *
-         * @param t first value
-         * @param u second value
-         * @return result
-         * @throws Exception if any error occurs
-         */
-        R apply(T t, U u) throws Exception;
-    }
-
-    /**
-     * Like {@code Consumer<T>} but allows checked exceptions.
-     *
-     * @param <T> consumed type
-     */
-    @FunctionalInterface
-    public interface ThrowingConsumer<T> {
-        /**
-         * Performs the action.
-         *
-         * @param t value
-         * @throws Exception if any error occurs
-         */
-        void accept(T t) throws Exception;
-    }
-
-    /**
-     * Like {@code BiConsumer<T, U>} but allows checked exceptions.
-     *
-     * @param <T> first input
-     * @param <U> second input
-     */
-    @FunctionalInterface
-    public interface ThrowingBiConsumer<T, U> {
-        /**
-         * Performs the action.
-         *
-         * @param t first value
-         * @param u second value
-         * @throws Exception if any error occurs
-         */
-        void accept(T t, U u) throws Exception;
-    }
-
-    /**
-     * Like {@code Supplier<T>} but allows checked exceptions.
-     *
-     * @param <T> result type
-     */
-    @FunctionalInterface
-    public interface ThrowingSupplier<T> {
-        /**
-         * Supplies a value.
-         *
-         * @return result
-         * @throws Exception if any error occurs
-         */
-        T get() throws Exception;
-    }
-
-    /**
-     * Like {@code Runnable} but allows checked exceptions.
-     */
-    @FunctionalInterface
-    public interface ThrowingRunnable {
-        /**
-         * Executes the runnable.
-         *
-         * @throws Exception if any error occurs
-         */
-        void run() throws Exception;
-    }
+public class CheckedAdapters {
 
     /**
      * Wraps a ThrowingFunction and rethrows as unchecked RuntimeException.

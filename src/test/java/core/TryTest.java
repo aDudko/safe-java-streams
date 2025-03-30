@@ -1,4 +1,6 @@
-import com.dudko.tools.safejavastreams.Try;
+package core;
+
+import com.dudko.tools.safejavastreams.core.Try;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

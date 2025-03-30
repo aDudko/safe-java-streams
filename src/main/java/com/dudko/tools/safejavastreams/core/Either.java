@@ -1,4 +1,4 @@
-package com.dudko.tools.safejavastreams;
+package com.dudko.tools.safejavastreams.core;
 
 import java.util.*;
 import java.util.function.*;

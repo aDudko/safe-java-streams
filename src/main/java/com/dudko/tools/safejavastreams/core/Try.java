@@ -1,4 +1,6 @@
-package com.dudko.tools.safejavastreams;
+package com.dudko.tools.safejavastreams.core;
+
+import com.dudko.tools.safejavastreams.function.ThrowingSupplier;
 
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -6,8 +8,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
-
-import com.dudko.tools.safejavastreams.StreamExceptionUtils.ThrowingSupplier;
 
 /**
  * Try is a container for a computation that may either result in a value (Success) or an exception (Failure).
@@ -177,6 +177,14 @@ public abstract class Try<T> {
         } catch (Throwable t) {
             return new Failure<>(t);
         }
+    }
+
+    public static <T> Try<T> success(T value) {
+        return new Success<>(value);
+    }
+
+    public static <T> Try<T> failure(Throwable exception) {
+        return new Failure<>(exception);
     }
 
     /**

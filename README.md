@@ -14,14 +14,14 @@
 
 ---
 
-`safe-java-streams` is a lightweight Java library that adds functional utilities for exception handling and `Either`-style value processing, enabling cleaner, safer and more predictable code.
+`safe-java-streams` is a lightweight Java library that adds functional utilities for exception handling and `Either`/`Try`/`Result` style value processing, enabling cleaner, safer, and more predictable code.
 
 It helps:
 
-- Eliminate duplicate `try/catch` blocks in `Stream API`
-- Explicitly handle errors without exceptions via `Either`
-- Use `Optional` and `Either` instead of `null` and `throw`
-- Make Java a bit more functional
+- Eliminate boilerplate `try/catch` in `Stream API`
+- Handle errors without exceptions using `Either` / `Result`
+- Represent computations that may fail using `Try`
+- Bridge Java's checked exceptions into functional pipelines
 
 ---
 
@@ -53,18 +53,25 @@ It helps:
 
 ## 🔍 Key Features
 
-### `Either<L, R>`
+### ✅ `Either<L, R>`
+A disjoint union of `Left` and `Right`, representing success or error.
+- `map`, `flatMap`, `fold`, `toOptional`
+- `recover`, `recoverWith`, `peek`
+- `getOrElse`, `orElseThrow`
 
-A container that can hold either a value (`Right`) or an error (`Left`). Supports:
+### 🔄 `Try<T>`
+Encapsulates a computation that may fail:
+- `Success` or `Failure`
+- Fluent chaining with `map`, `flatMap`, `recover`
+- Transform to `Optional` / `Either`
 
-- `map`, `flatMap`, `fold`
-- `recover`, `recoverWith`, `ifLeft`, `ifRight`
-- `peek`, `toOptional`
+### 📊 `Result<T, E>`
+Inspired by Rust/Scala. Encapsulates `success` or `failure` with separate types:
+- `map`, `flatMap`, `mapError`, `recover`
+- `get`, `getOrElse`, `toEither`, `toOptional`
 
-### `StreamExceptionUtils`
-
-Set of adapters for working with checked exceptions in `Stream API`:
-
+### 🧰 `CheckedAdapters`
+Adapter utilities for using checked-exception-throwing lambdas in `Stream API`:
 - `wrapFunction`, `wrapConsumer`, `wrapSupplier` etc.
 - `safeFunctionOptional`, `safeFunctionEither`
 
@@ -72,25 +79,28 @@ Set of adapters for working with checked exceptions in `Stream API`:
 
 ## 💡 Usage [Examples](src/main/java/com/dudko/tools/safejavastreams/demo)
 
+---
+
 ## 🧪 Test Coverage
 
 - Tests written with `JUnit 5`
-- Covers `Either`, adapters, transformations, `Stream` pipelines
+- Covers all core features: `Either`, `Try`, `Result`, `CheckedAdapters`
 
 ---
 
 ## 📘 JavaDoc
 
-👉 Available on [GitHub Pages](https://aDudko.github.io/safe-java-streams) if enabled
+👉 [Browse Online Documentation](https://adudko.github.io/safe-java-streams/)
 
 ---
 
 ## 🚀 Roadmap
 
-- Add `Try<T>` and `Result<T, E>`
-- Support for `mapLeft`, `biMap`, `filter`
-- Enhanced integration with `Optional`, `CompletableFuture`, `record`
-- Support for `Kotlin`, `Gradle`, `Functional style DSL`
+- [x] Add `Try<T>` and `Result<T, E>`
+- [x] Improve error handling ergonomics
+- [ ] Add `Validated` and `NonEmptyList`
+- [ ] Add monadic and DSL-style builders
+- [ ] Gradle & Kotlin support
 
 ---
 
@@ -98,5 +108,3 @@ Set of adapters for working with checked exceptions in `Stream API`:
 
 **Anatoly Dudko**  
 [GitHub @aDudko](https://github.com/aDudko) • [LinkedIn](https://www.linkedin.com/in/dudko-anatol/)
-
----
