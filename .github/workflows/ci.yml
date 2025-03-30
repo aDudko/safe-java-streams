@@ -19,8 +19,11 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build and generate Javadoc
+      - name: Build and test
         run: mvn -B verify
+
+      - name: Generate Javadoc
+        run: mvn javadoc:javadoc
 
       - name: Copy Javadoc to temp folder
         run: |
