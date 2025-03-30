@@ -98,6 +98,10 @@ public abstract class Try<T> {
      */
     public abstract Optional<T> toOptional();
 
+    public abstract Throwable getError();
+
+    public abstract <L> Either<L, T> toEither(Function<? super Throwable, ? extends L> mapper);
+
     /**
      * Checks if this Try is a Failure of specific exception type.
      *
@@ -179,10 +183,24 @@ public abstract class Try<T> {
         }
     }
 
+    /**
+     * Creates a Success instance.
+     *
+     * @param value the value
+     * @param <T>   type of the value
+     * @return Success with the value
+     */
     public static <T> Try<T> success(T value) {
         return new Success<>(value);
     }
 
+    /**
+     * Creates a Failure instance.
+     *
+     * @param exception the exception
+     * @param <T>       type of the value
+     * @return Failure with the exception
+     */
     public static <T> Try<T> failure(Throwable exception) {
         return new Failure<>(exception);
     }
@@ -254,6 +272,16 @@ public abstract class Try<T> {
         public Optional<T> toOptional() {
             return Optional.of(value);
         }
+
+        @Override
+        public Throwable getError() {
+            throw new IllegalStateException("No error in Success");
+        }
+
+        @Override
+        public <L> Either<L, T> toEither(Function<? super Throwable, ? extends L> mapper) {
+            return Either.right(value);
+        }
     }
 
     /**
@@ -318,6 +346,16 @@ public abstract class Try<T> {
         @Override
         public Optional<T> toOptional() {
             return Optional.empty();
+        }
+
+        @Override
+        public Throwable getError() {
+            return exception;
+        }
+
+        @Override
+        public <L> Either<L, T> toEither(Function<? super Throwable, ? extends L> mapper) {
+            return Either.left(mapper.apply(exception));
         }
     }
 

@@ -25,19 +25,16 @@ jobs:
       - name: Generate Javadoc
         run: mvn javadoc:javadoc
 
-      - name: Debug generated javadoc
-        run: |
-          echo "::group::Listing apidocs"
-          ls -la target/site/apidocs || echo 'No apidocs found'
-          echo "::endgroup::"
-
       - name: Copy Javadoc to temp folder
         run: |
           mkdir -p temp-docs
           cp -R target/site/apidocs/* temp-docs/
 
-      - name: Create redirect root index.html
+      - name: Prepare Javadoc for GitHub Pages
         run: |
+          mkdir -p temp-docs
+          cp -R target/site/apidocs/* temp-docs/
+          echo > temp-docs/.nojekyll
           echo '<!DOCTYPE html>
           <html lang="en">
             <head>
@@ -45,18 +42,7 @@ jobs:
               <title>Redirecting…</title>
             </head>
             <body>
-              <p>If you are not redirected automatically, follow this <a href="index.html">link</a>.</p>
-            </body>
-          </html>' > temp-docs/.nojekyll
-          cp temp-docs/index.html temp-docs/root.html
-          echo '<!DOCTYPE html>
-          <html lang="en">
-            <head>
-              <meta http-equiv="refresh" content="0; url=root.html">
-              <title>Redirecting…</title>
-            </head>
-            <body>
-              <p>If you are not redirected automatically, follow this <a href="root.html">link</a>.</p>
+              <p>If you are not redirected automatically, follow this <a href="index.html">Javadoc</a>.</p>
             </body>
           </html>' > temp-docs/index.html
 

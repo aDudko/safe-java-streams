@@ -122,6 +122,12 @@ public abstract class Either<L, R> {
      */
     public abstract Optional<R> toOptional();
 
+    /**
+     * Converts this Either to a Stream.
+     *
+     * @return Stream with this Either
+     */
+    public abstract R get();
 
     /**
      * Converts this Either to a Stream.
@@ -227,6 +233,11 @@ public abstract class Either<L, R> {
             return Optional.empty();
         }
 
+        @Override
+        public R get() {
+            throw new NoSuchElementException("No right value present");
+        }
+
         public String toString() {
             return "Left(" + value + ")";
         }
@@ -292,6 +303,11 @@ public abstract class Either<L, R> {
 
         public Optional<R> toOptional() {
             return Optional.of(value);
+        }
+
+        @Override
+        public R get() {
+            return value;
         }
 
         public String toString() {
