@@ -104,6 +104,10 @@ Adapter utilities for using checked-exception-throwing lambdas in `Stream API`:
 
 ---
 
+## If you find this useful...
+
+...give it a star, fork it, or mention it in your next data project!
+
 ## ✍️ Author
 
 **Anatoly Dudko**  
